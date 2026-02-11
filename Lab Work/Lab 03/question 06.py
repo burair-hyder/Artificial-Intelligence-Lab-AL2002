@@ -1,58 +1,38 @@
-# question 06 :
+# question 06:
+import random
+
 class Environment:
     def __init__(self):
-        self.grid = [
-            ['a', 'b', 'c'],
-            ['d', 'e', 'f'],
-            ['g', 'h', 'j']
-        ]
-        self.room_status = {
-            'a': 'safe', 'b': 'safe', 'c': 'fire',
-            'd': 'safe', 'e': 'fire', 'f': 'safe',
-            'g': 'safe', 'h': 'safe', 'j': 'fire'
-        }
+        self.actions = ['Play', 'Rest']
+        self.rewards = {'Play': 5, 'Rest': 1}
 
-    def display(self):
-        for row in self.grid:
-            for room in row:
-                if self.room_status[room] == 'fire':
-                    print("F", end=" ")
-                else:
-                    print("S", end=" ")
-            print()
-        print("-" * 15)
+    def get_reward(self, action):
+        return self.rewards[action]
 
-    def has_fire(self, room):
-        return self.room_status[room] == 'fire'
-
-    def extinguish_fire(self, room):
-        if self.has_fire(room):
-            self.room_status[room] = 'safe'
-
-
-class Robot:
-    def __init__(self, environment, path):
+class Agent:
+    def __init__(self, environment):
         self.env = environment
-        self.path = path
-        self.position = path[0]
+        self.q_table = {}
+        for action in self.env.actions:
+            self.q_table[action] = 0
+        self.alpha = 0.5
 
-    def move_and_extinguish(self):
-        for room in self.path:
-            self.position = room
-            print("Robot is at room '" + room + "'")
-            if self.env.has_fire(room):
-                print("Fire detected in room '" + room + "'! Extinguishing...")
-                self.env.extinguish_fire(room)
-            else:
-                print("Room '" + room + "' is safe. Moving on.")
-            self.env.display()
+    def choose_action(self):
+        return random.choice(self.env.actions)
 
+    def update_q(self, action, reward):
+        self.q_table[action] = self.q_table[action] + self.alpha * (reward - self.q_table[action])
 
-env = Environment()
-robot_path = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j']
-robot = Robot(env, robot_path)
+def run_agent(iterations):
+    env = Environment()
+    agent = Agent(env)
+    for step in range(1, iterations + 1):
+        action = agent.choose_action()
+        reward = env.get_reward(action)
+        print("Step", step, ": Action", action, "Reward", reward)
+        agent.update_q(action, reward)
+        if step % 5 == 0:
+            print("Q-table Updated")
+            print("Q-values:", agent.q_table)
 
-robot.move_and_extinguish()
-
-print("All rooms have been checked and fires extinguished!")
-env.display()
+run_agent(10)
