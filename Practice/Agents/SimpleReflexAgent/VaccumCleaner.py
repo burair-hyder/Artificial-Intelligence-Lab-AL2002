@@ -3,25 +3,25 @@
 import random 
 
 class environment:
-  def __init__(self):a
+  def __init__(self):
     num = random.randint(0,1);
     if num==0:
-      self.percept = "clean"
+      self.state = "clean"
     else:
-      self.percept = "dirty"
+      self.state = "dirty"
 
   def get_percept(self):
-    return self.percept
+    return self.state
 
   def update_env(self,newpercept):
-    self.percept = newpercept
+    self.state = newpercept
 
   def update_env_random(self):
     num = random.randint(0,1);
     if num==0:
-      self.percept = "clean"
+      self.state = "clean"
     else:
-      self.percept = "dirty"
+      self.state = "dirty"
   
 class simplereflexCleaner:
   def __init__(self):
