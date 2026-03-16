@@ -1,4 +1,4 @@
-from os import environ
+
 # simple reflex agent 
 # 3X3 room 
 
