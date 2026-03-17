@@ -9,6 +9,19 @@ tree = {
     'H' : [],
     'I' : []
 }
+"""-> BFS functions accepts a graph, start node, goal node 
+   1) it has a list (array) to store the visited nodes
+   2) it has a queue structure to store nodes to explore  
+   3) the start node is added to both, the visited list and the queue
+	THE SEARACH CONTINUES AS LONG AS WE HAVE NODES IN THE QUEUE
+	
+   REPEAT:
+   4)   - dequeue from front of queue
+	- is node = goal then stop search and return
+	- else : enqueue all neighbours(childs) of that node
+	- stop if all nodes are explored. """
+
+
 
 
 def BFS(graph,start,goal):
