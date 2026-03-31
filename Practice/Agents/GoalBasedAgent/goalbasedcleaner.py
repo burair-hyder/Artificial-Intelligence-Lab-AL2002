@@ -1,6 +1,6 @@
 # goal based agent
 # this means that agent will have a goal to set and acheive by acting
-
+# we act based on our goal not directly using the percept
 
 class environment:
 
